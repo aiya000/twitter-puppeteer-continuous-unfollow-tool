@@ -6,7 +6,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "make-config": "npx tsx ./scripts/make-config.mts $USERNAME",
+    "make-config": "npx tsx ./scripts/make-config.mts",
     "save-leaders": "npx tsx ./scripts/save-leaders.mts"
   },
   "dependencies": {

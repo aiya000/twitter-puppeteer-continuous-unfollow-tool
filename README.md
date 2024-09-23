@@ -8,7 +8,7 @@ WITHOUT Twitter API.
 
 Only first
 
-1. Run `$ USERNAME=your_twitter_id npm run save-config` to make a config file of this app
+1. Run `$ npm run make-config --username=your_twitter_id` to make a config file of this app
 1. Run `$ npm run save-leaders` to make a cache of users list who doesn't follow you
 
 Run when you want to unfollow users
