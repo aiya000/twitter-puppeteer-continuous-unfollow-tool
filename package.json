@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "make-config": "npx tsx ./scripts/make-config.mts $USERNAME",
-    "save-inactive": "npx tsx ./save-leaders.mts"
+    "save-leaders": "npx tsx ./scripts/save-leaders.mts"
   },
   "dependencies": {
     "puppeteer": "^23.4.0",
