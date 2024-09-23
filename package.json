@@ -6,8 +6,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "config": "npx tsx ./scripts/make-config.mts $USERNAME",
-    "save-inactive": "npx tsx ./save-inactive.mts"
+    "make-config": "npx tsx ./scripts/make-config.mts $USERNAME",
+    "save-inactive": "npx tsx ./save-leaders.mts"
   },
   "dependencies": {
     "puppeteer": "^23.4.0",
