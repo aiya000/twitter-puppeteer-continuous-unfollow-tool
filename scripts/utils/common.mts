@@ -1,6 +1,17 @@
 /**
  * `try` syntax as an expression.
  */
+export const tryTo = <T,>(f: () => T): T | Error => {
+  try {
+    return f()
+  } catch (e) {
+    return new Error(`${e}`)
+  }
+}
+
+/**
+ * `try` syntax as an expression for async functions.
+ */
 export const tryToAsync = async <T,>(
   f: () => Promise<T>,
 ): Promise<T | Error> => {
