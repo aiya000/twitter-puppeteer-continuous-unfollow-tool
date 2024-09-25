@@ -4,6 +4,15 @@ This is a simple tool that uses Puppeteer to unfollow users who doesn't follow y
 It is designed to be run continuously, so that you can unfollow users as they unfollow you,
 WITHOUT Twitter API.
 
+# NOTE
+
+Currently accounts without 2FA are not supported,
+because development is difficult by Twitter spam filtering.
+
+Please setup your account with 2FA to use this app.
+
+I am waiting for your PR `:D`
+
 # How to use
 
 Only first
