@@ -8,12 +8,15 @@ WITHOUT Twitter API.
 
 Only first
 
-1. Run `$ npm run make-config --username=your_twitter_id` to make a config file of this app
-1. Run `$ npm run save-leaders` to make a cache of users list who doesn't follow you
+1. Run `$ cp .env.example .env` and input your information
+    - Please be careful. Don't share this config
+1. Run `$ npm run run -- login` and login manually
+    - If you are using 2FA, run `$ npm run run -- login --2fa=123456` with your 2FA code
+1. Run `$ npm run run -- save-leaders` to make a cache of users list who doesn't follow you
 
 Run when you want to unfollow users
 
-1. Run `$ npm run unfollow` to unfollow that leader users
+1. Run `$ npm run run -- unfollow` to unfollow that leader users
     - Only unfollow 10th users at once, because Twitter suggest to ban you if you unfollow too many users at once
     - Save a count number that far you've unfollowed automatically
-        - On the next `$ npm run unfollow` running, it will unfollow users from the count number
+        - On the next `$ npm run run -- unfollow` running, it will unfollow users from the count number
