@@ -6,7 +6,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "npx tsx ./scripts/main.mts"
+    "open-twitter": "npx tsx ./scripts/open-twitter.mts",
+    "save-leaders": "npx tsx ./scripts/save-leaders.mts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -16,7 +17,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.0",
-    "args-parser": "^1.3.0",
     "eslint": "^9.11.0",
     "globals": "^15.9.0",
     "typescript-eslint": "^8.6.0"
