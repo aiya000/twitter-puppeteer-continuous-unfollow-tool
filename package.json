@@ -6,9 +6,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "open-twitter": "npx tsx ./scripts/open-twitter.mts",
-    "login": "npx tsx ./scripts/login.mts",
-    "save-leaders": "npx tsx ./scripts/save-leaders.mts"
+    "open-twitter": "npx tsx -- ./scripts/open-twitter.mts",
+    "login": "npx tsx -- ./scripts/login.mts",
+    "save-leaders": "npx tsx -- ./scripts/save-leaders.mts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
