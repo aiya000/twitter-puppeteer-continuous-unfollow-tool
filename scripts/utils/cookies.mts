@@ -2,6 +2,7 @@ import { Page } from 'puppeteer'
 import { z } from 'zod'
 import fs from 'node:fs/promises'
 import { requireValueOf } from './zod.mts'
+import { tryToAsync } from './common.mts'
 
 const cookieSameSiteSchema = z.enum(['Strict', 'Lax', 'None'])
 const cookiePrioritySchema = z.enum(['Low', 'Medium', 'High'])
@@ -24,16 +25,6 @@ const cookieParamSchema = z.object({
 })
 
 const cookiesJson = './cookies.json'
-
-export const tryToAsync = async <T,>(
-  f: () => Promise<T>,
-): Promise<T | Error> => {
-  try {
-    return await f()
-  } catch (e) {
-    return new Error(`${e}`)
-  }
-}
 
 /**
  * Returns an Error if cookies.json is not accesible.
