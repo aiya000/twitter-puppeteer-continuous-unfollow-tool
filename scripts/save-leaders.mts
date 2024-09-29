@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer'
 import { raiseError } from './utils/common.mts'
 import { loadCookiesIfExist } from './utils/cookies.mts'
 import { sleep } from './utils/promises.mts'
+import { TwitterInfo } from './models/TwitterInfo.mts'
 import 'dotenv/config'
 
 const twitterId =
@@ -14,7 +15,7 @@ const page = await browser.newPage()
 await page.setViewport({ width: 1080, height: 1024 })
 await loadCookiesIfExist(page)
 
-page.on('console', (msg) => console.log('CONSOLE:', msg.text()))
+page.on('console', (msg) => console.log(msg.text()))
 
 await page.goto(`https://x.com/${twitterId}/following`)
 if (page.url() === `https://x.com/${twitterId}`) {
@@ -22,45 +23,74 @@ if (page.url() === `https://x.com/${twitterId}`) {
   process.exit(1)
 }
 
-const usersList = await page.waitForSelector(
+const check = await page.waitForSelector(
   '#react-root > div > div > div > main > div > div > div > div > div > section > div > div',
 )
-if (usersList === null) {
-  throw new Error('usersList is null.')
+if (check === null) {
+  throw new Error('check error')
 }
-
 await sleep(1000) // TODO: Don't use this
-// const screenNames = await usersList.frame.$$(
-//   'button[data-testid="UserCell"] > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > div:nth-child(1) > [role="link"] > div > div:nth-child(1) > span',
-// )
-// if (screenNames.length === 0) {
-//   throw new Error('screenNames is null.')
-// }
 
-// for (const screenName of screenNames) {
-//   await screenName.evaluate((elem) => console.log(elem.textContent))
-// }
+await page.evaluate(async () => {
+  // Like below. (These kind class names are not defined in the real.)
+  //
+  // <div class="userList">
+  //   <div class="info">
+  //     <span class="screenName">screenNameA</span>
+  //     <span class="twitterId">twitterIdA</span>
+  //     <span class="isFollowingMe">isFollowingMe</span>
+  //   </div>
+  //   <div class="info">
+  //     <span class="screenName">screenNameB</span>
+  //     <span class="twitterId">twitterIdB</span>
+  //     <span class="isFollowingMe">isFollowingMe</span>
+  //   </div>
+  //   ...
+  // </div>
 
-// const twitterIds = await usersList.frame.$$(
-//   'button[data-testid="UserCell"] > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > div:nth-child(2) > div:nth-child(1) > [role="link"] > div > div:nth-child(1) > span',
-// )
-// if (twitterIds.length === 0) {
-//   throw new Error('twitterIds is null.')
-// }
-//
-// for (const twitterId of twitterIds) {
-//   await twitterId.evaluate((elem) => console.log(elem.textContent))
-// }
+  const userList = document
+    .querySelectorAll(
+      '#react-root > div > div > div > main > div > div > div > div > div > section > div > div',
+    )[0]
+    ?.querySelectorAll('div[data-testid="cellInnerDiv"]')
+  if (userList === undefined) {
+    throw new Error('userList is undefined.')
+  }
 
-const isFollowingMeList = await usersList.frame.$$(
-  'button[data-testid="UserCell"] > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div > div:nth-child(2) > div:nth-child(2) > div > span',
-)
-if (isFollowingMeList.length === 0) {
-  throw new Error('isFollowingMe is null.')
-}
+  for (const user of userList) {
+    const info = user.querySelector(
+      ':scope > div > div > button > div > div:nth-child(2) > div > div > div',
+    )
+    if (!info) {
+      throw new Error('info is nullish.')
+    }
 
-for (const isFollowingMe of isFollowingMeList) {
-  await isFollowingMe.evaluate((elem) => console.log(elem.textContent))
-}
+    const screenName = info.querySelector(
+      ':scope > div:nth-child(1) > a > div > div:nth-child(1) > span > span:nth-child(1)',
+    )?.textContent
+    if (!screenName) {
+      throw new Error('screenName is nullish.')
+    }
+
+    const twitterId = info.querySelector(
+      ':scope > div:nth-child(2) > div:nth-child(1) > a > div > div > span',
+    )?.textContent
+    if (!twitterId) {
+      throw new Error('twitterId is nullish.')
+    }
+
+    const isFollowingMe =
+      info.querySelector(
+        ':scope > div:nth-child(2) > div:nth-child(2) > div > span',
+      ) !== null
+
+    const twitterInfo: TwitterInfo = {
+      screenName,
+      twitterId,
+      isFollowingMe,
+    }
+    console.log(JSON.stringify(twitterInfo))
+  }
+})
 
 await browser.close()
