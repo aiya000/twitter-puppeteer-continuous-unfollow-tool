@@ -23,12 +23,11 @@ if (page.url() === `https://x.com/${twitterId}`) {
   process.exit(1)
 }
 
-const check = await page.waitForSelector(
-  '#react-root > div > div > div > main > div > div > div > div > div > section > div > div',
-)
-if (check === null) {
-  throw new Error('check error')
-}
+await page
+  .locator(
+    '#react-root > div > div > div > main > div > div > div > div > div > section > div > div',
+  )
+  .wait()
 await sleep(1000) // TODO: Don't use this
 
 await page.evaluate(async () => {
@@ -69,6 +68,10 @@ await page.evaluate(async () => {
       ':scope > div:nth-child(1) > a > div > div:nth-child(1) > span > span:nth-child(1)',
     )?.textContent
     if (!screenName) {
+      console.error(
+        'error',
+        info.querySelector(':scope > div:nth-child(1)')?.outerHTML,
+      )
       throw new Error('screenName is nullish.')
     }
 
