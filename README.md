@@ -1,3 +1,5 @@
+This project is WIP.
+
 # 🐦 twitter-puppeteer-continuous-unfollow-tool 🐦
 
 This is a simple tool that uses Puppeteer to unfollow users who doesn't follow you on Twitter (X).
